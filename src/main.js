@@ -2,7 +2,13 @@ import { createApp } from 'vue'
 // import './style.css'
 import App from './App.vue'
 
+//import router
+import router from './route'
+
 const app = createApp(App)
+
+//gunakan router di vue js dengan plugin "use"
+app.use(router)
 
 //define mixins for global function
 app.mixin({
