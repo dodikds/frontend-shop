@@ -19,7 +19,7 @@ const routes = [
     {
         path: '/customer/dashboard',
         name: 'dashboard',
-        component: () => import( /* webpackChunkName: "login" */ '../views/dashboard/Index.vue'),
+        component: () => import( /* webpackChunkName: "dashboard" */ '../views/dashboard/Index.vue'),
         //chek is loggedIn
         meta: {
             requiresAuth: true
@@ -28,20 +28,25 @@ const routes = [
     {
         path: '/customer/order',
         name: 'order',
-        component: () => import( /* webpackChunkName: "order" */ '../views/order/Index.vue'),
+        component: () => import(/* webpackChunkName: "order" */ '../views/order/Index.vue'),
         meta: {
-            //check is loggedIn
-            requiresAuth: true
+          //chek is loggedIn
+          requiresAuth: true
         }
-    },
+      },
     {
         path: '/customer/order/:snap_token',
         name: 'detail_order',
-        component: () => import( /* webpackChunkName: "detail_order" */ '../views/order/Show.vue'),
+        component: () => import(/* webpackChunkName: "detail_order" */ '../views/order/Show.vue'),
         meta: {
-            //check is LoggedIn
-            requiresAuth: true
+          //chek is loggedIn
+          requiresAuth: true
         }
+    },
+    {
+      path: '/',
+      name: 'home',
+      component: () => import( /* webpackChunkName: "home" */ '../views/home/Index.vue')
     },
 ]
 
@@ -63,6 +68,6 @@ router.beforeEach((to, from, next) => {
     } else {
       next()
     }
-  })
+})
 
 export default router
