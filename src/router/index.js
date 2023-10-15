@@ -33,7 +33,7 @@ const routes = [
           //chek is loggedIn
           requiresAuth: true
         }
-      },
+    },
     {
         path: '/customer/order/:snap_token',
         name: 'detail_order',
@@ -44,9 +44,14 @@ const routes = [
         }
     },
     {
-      path: '/',
-      name: 'home',
-      component: () => import( /* webpackChunkName: "home" */ '../views/home/Index.vue')
+        path: '/',
+        name: 'home',
+        component: () => import( /* webpackChunkName: "home" */ '../views/home/Index.vue')
+    },
+    {
+        path: '/product/:slug',
+        name: 'detail_product',
+        component: () => import(/* webpackChunkName: "detail_product" */ '../views/product/Show.vue')
     },
 ]
 
@@ -61,12 +66,12 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         //cek nilai dari getters isLoggedIn di module auth
         if (store.getters['auth/isLoggedIn']) {
-        next()
-        return
-      }
-      next('/login')
+            next()
+            return
+        }
+        next('/login')
     } else {
-      next()
+        next()
     }
 })
 
