@@ -24,7 +24,7 @@
                         <div class="d-flex justify-content-end">
 
                             <div class="cart-header">
-                                <a href="#" class="btn search-button btn-md" style="color: #ffffff;background-color: #6677ef;border-color: #ffffff;"><i class="fa fa-shopping-cart"></i> 0 | Rp. 0 </a>
+                                <a href="#" class="btn search-button btn-md" style="color: #ffffff;background-color: #6677ef;border-color: #ffffff;"><i class="fa fa-shopping-cart"></i> {{ cartCount }} | Rp. {{ moneyFormat(cartTotal) }} </a>
                             </div>
 
                             <div class="account">
@@ -41,8 +41,8 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useStore } from 'vuex'
+    import { computed, onMounted } from 'vue'
+    import { useStore } from 'vuex'
 
     export default {
 
@@ -56,16 +56,50 @@ import { useStore } from 'vuex'
             //computed
             const isLoggedIn = computed(() => {
 
-                //get getters isLoggedIn dari module auth
+                //get getters "isLoggedIn" dari module "auth"
                 return store.getters['auth/isLoggedIn']
 
             })
 
+            //cart count
+            const cartCount = computed(() => {
+
+                //get getter "cartCount" dari module "auth"
+                return store.getters['cart/cartCount']
+            })
+
+            //cart total
+            const cartTotal = computed(() => {
+
+                //get getter "cartTotal" dari module "auth"
+                return store.getters['cart/cartTotal']
+            })
+
+            //mounted
+            onMounted(() => {
+
+                //check state token
+                const token = store.state.auth.token
+
+                if(!token) {
+                    return
+                }
+
+                //saat mounted, akan memanggil action "cartCount" di module "cart"
+                store.dispatch('cart/cartCount')
+
+                //saat mounted, akam memanggil action "cartTotal" di module "cart"
+                store.dispatch('cart/cartTotal')
+            })
+
             return {
                 store,
-                isLoggedIn
+                isLoggedIn,
+                cartTotal,
+                cartCount
             }
 
         }
+        
     }
 </script>
