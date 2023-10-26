@@ -6,12 +6,13 @@
                     <div class="card-body">
                         <h5><i class="fa fa-shopping-cart"></i> DETAIL PESENAN</h5>
                         <hr>
-                        <table class="table" style="border-style: solid !important;border-color: rgb(198, 206, 214) !important;">
+                        <table class="table"
+                            style="border-style: solid !important;border-color: rgb(198, 206, 214) !important;">
                             <tbody>
                                 <tr v-for="cart in carts" :key="cart.id" style="background: #edf2f7;">
                                     <td class="b-none" width="25%">
                                         <div class="wrapper-image-cart">
-                                            <img :src="cart.product.image" style="width: 100%;border-radius: .5rem;" alt="">
+                                            <img :src="cart.product.image" style="width: 100%;border-radius: .5rem">
                                         </div>
                                     </td>
                                     <td class="b-none" width="50%">
@@ -23,7 +24,6 @@
                                                 <td style="padding: .20rem"><b>{{ cart.quantity }}</b></td>
                                             </tr>
                                         </table>
-
                                     </td>
                                     <td class="b-none text-right">
                                         <p class="m-0 font-weight-bold">Rp. {{ moneyFormat(cart.price) }}
@@ -36,7 +36,7 @@
 
                                         <br>
                                         <div class="text-right">
-                                            <button class="btn btn-sm btn-danger">
+                                            <button @click.prevent="removeCart(cart.id)" class="btn btn-sm btn-danger">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </div>
@@ -100,7 +100,7 @@
         </div>
     </div>
 </template>
-
+  
 <script>
     import { onMounted, computed } from 'vue'
     import { useStore } from 'vuex' // <-- vuex
@@ -116,12 +116,12 @@
 
             //mounted cart
             onMounted(() => {
-
+            
                 //menjalankan beberapa actions di module cart
-                store.dispatch('cart/cartCount')  // <-- untuk memanggil action "cartCount" di module "cart"
-                store.dispatch('cart/cartTotal')  // <-- untuk memanggil action "cartTotal" di module "cart"
-                store.dispatch('cart/cartWeight') // <-- untuk memanggil action "cartWeight" di module "cart"
-
+                    store.dispatch('cart/cartCount')  // <-- untuk memanggil action "cartCount" di module "cart"
+                    store.dispatch('cart/cartTotal')  // <-- untuk memanggil action "cartTotal" di module "cart"
+                    store.dispatch('cart/cartWeight') // <-- untuk memanggil action "cartWeight" di module "cart"
+            
             })
 
             //get data cart dari getters cart di module cart
@@ -139,13 +139,22 @@
                 return store.state.cart.cartWeight
             })
 
+            /**
+             * remove cart
+             */
+            function removeCart(cart_id) {
+                //panggil actions "removeCart" di module "cart" dengan parameter "cart_id"
+                store.dispatch('cart/removeCart', cart_id)
+            }
+
             return {
                 carts,              // <-- state carts
                 cartTotal,          // <-- state cartTotal
                 cartWeight,         // <-- state cartWeight
+                removeCart,         // <-- method removeCart
             }
 
         }
-        
+
     }
 </script>
